@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeBaseService", "KnowledgeBaseService.csproj", "{609384E4-169A-8C20-5557-22C9531B4007}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{609384E4-169A-8C20-5557-22C9531B4007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609384E4-169A-8C20-5557-22C9531B4007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609384E4-169A-8C20-5557-22C9531B4007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609384E4-169A-8C20-5557-22C9531B4007}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AD0D6CE-94CF-47C3-9ACF-D88D6E1A9250}
+	EndGlobalSection
+EndGlobal
