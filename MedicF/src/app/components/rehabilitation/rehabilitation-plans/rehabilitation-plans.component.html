@@ -1,0 +1,16 @@
+<h2>Rehabilitation Plans</h2>
+<div *ngIf="rehabilitationPlans.length > 0; else noPlans">
+  <div *ngFor="let plan of rehabilitationPlans" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ plan.name }}</h5>
+      <p class="card-text">Description: {{ plan.description }}</p>
+      <p class="card-text">Start Date: {{ plan.startDate | date }}</p>
+      <p class="card-text">End Date: {{ plan.endDate | date }}</p>
+      <p class="card-text">Patient ID: {{ plan.patientId }}</p>
+      <p class="card-text">Doctor ID: {{ plan.doctorId }}</p>
+    </div>
+  </div>
+</div>
+<ng-template #noPlans>
+  <p>No rehabilitation plans found.</p>
+</ng-template>

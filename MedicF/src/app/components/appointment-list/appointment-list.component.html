@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Navbatlar Ro'yxati</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="appointments$ | async as appointments; else loading">
+    <div *ngIf="appointments.length > 0; else noAppointments">
+      <ul class="appointment-list">
+        <li *ngFor="let appointment of appointments" class="appointment-item">
+          <p><strong>ID:</strong> {{ appointment.id }}</p>
+          <p><strong>Bemor ID:</strong> {{ appointment.patientId }}</p>
+          <p><strong>Shifokor ID:</strong> {{ appointment.doctorId }}</p>
+          <p><strong>Sana va Vaqt:</strong> {{ appointment.appointmentDateTime | date:'medium' }}</p>
+          <p><strong>Holat:</strong> {{ appointment.status }}</p>
+          <p><strong>Izohlar:</strong> {{ appointment.notes }}</p>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noAppointments>
+      <p>Hozircha navbatlar mavjud emas.</p>
+    </ng-template>
+  </div>
+  <ng-template #loading>
+    <p>Navbatlar yuklanmoqda...</p>
+  </ng-template>
+</div>
+<p>appointment-list works!</p>

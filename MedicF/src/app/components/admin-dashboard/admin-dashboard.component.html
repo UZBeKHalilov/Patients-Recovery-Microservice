@@ -1,0 +1,157 @@
+<div class="admin-dashboard">
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p>Shifokorlar, bemorlar va tizim operatsiyalarini boshqarish</p>
+    
+    <div class="actions-container">
+      <button class="settings-btn"><i class="fas fa-cog"></i> Sozlamalar</button>
+      <button class="add-user-btn"><i class="fas fa-user-plus"></i> Foydalanuvchi qo'shish</button>
+    </div>
+  </div>
+
+  <!-- Statistika kartochkalari -->
+  <div class="stats-cards" *ngIf="!loading; else loadingTemplate">
+    <div class="stat-card">
+      <div class="stat-info">
+        <h2>Jami bemorlar</h2>
+        <div class="stat-number">{{ patients.length }}</div>
+        <div class="stat-change">+{{ patients.length > 0 ? Math.min(patients.length, 12) : 0 }} shu hafta</div>
+      </div>
+      <div class="stat-icon patient-icon">
+        <i class="fas fa-user-injured"></i>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <h2>Faol shifokorlar</h2>
+        <div class="stat-number">{{ doctors.length }}</div>
+        <div class="stat-change">+{{ doctors.length > 0 ? Math.min(doctors.length, 2) : 0 }} shu oy</div>
+      </div>
+      <div class="stat-icon doctor-icon">
+        <i class="fas fa-user-md"></i>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <h2>Kritik holatlar</h2>
+        <div class="stat-number">{{ getCriticalCases() }}</div>
+        <div class="stat-change">-{{ getCriticalCasesChange() }} kechadan</div>
+      </div>
+      <div class="stat-icon critical-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-info">
+        <h2>Bugun tuzalganlar</h2>
+        <div class="stat-number">{{ getRecoveredToday() }}</div>
+        <div class="stat-change">+{{ getRecoveredChange() }} kechadan</div>
+      </div>
+      <div class="stat-icon recovered-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Asosiy ma'lumotlar seksiyasi -->
+  <div class="main-content" *ngIf="!loading; else loadingTemplate">
+    <div class="content-section">
+      <div class="section-header">
+        <h2><i class="fas fa-user-injured"></i> Tayinlanmagan bemorlar</h2>
+        <p>Shifokor tayinlashni kutayotgan bemorlar</p>
+      </div>
+      
+      <div class="patient-list" *ngIf="getUnassignedPatients().length > 0; else noUnassignedPatients">
+        <div class="patient-card" *ngFor="let patient of getUnassignedPatients()">
+          <div class="patient-info">
+            <h3>{{ patient.firstName }} {{ patient.lastName }}</h3>
+            <p>Tug'ilgan sana: {{ patient.dateOfBirth | date:'dd.MM.yyyy' }}</p>
+          </div>
+          <div class="patient-actions">
+            <span class="status-badge waiting">Kutilmoqda</span>
+            <button class="assign-btn">Shifokor tayinlash</button>
+            <button class="details-btn">Batafsil</button>
+          </div>
+        </div>
+      </div>
+      
+      <ng-template #noUnassignedPatients>
+        <div class="empty-state">
+          <i class="fas fa-check-circle"></i>
+          <p>Hozirda barcha bemorlarga shifokor tayinlangan</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="content-section">
+      <div class="section-header">
+        <h2><i class="fas fa-user-md"></i> Mavjud shifokorlar</h2>
+        <p>Shifokor sig'imi va joriy tayinlashlar</p>
+      </div>
+      
+      <div class="doctor-list" *ngIf="doctors.length > 0; else noDoctors">
+        <div class="doctor-card" *ngFor="let doctor of doctors">
+          <div class="doctor-info">
+            <h3>Dr. {{ doctor.firstName }} {{ doctor.lastName }}</h3>
+            <p>{{ doctor.specialization }}</p>
+            <div class="capacity">
+              <p>Bemorlar: {{ getDoctorPatientCount(doctor.id) }}/{{ getMaxPatients() }}</p>
+              <div class="progress-bar">
+                <div class="progress" [style.width.%]="(getDoctorPatientCount(doctor.id) / getMaxPatients()) * 100"></div>
+              </div>
+            </div>
+          </div>
+          <div class="doctor-actions">
+            <span class="status-badge" [ngClass]="isDoctorAvailable(doctor.id) ? 'available' : 'full'">{{ isDoctorAvailable(doctor.id) ? 'Mavjud' : 'To\'liq' }}</span>
+            <button class="assign-btn" [disabled]="!isDoctorAvailable(doctor.id)">Bemor tayinlash</button>
+            <button class="details-btn">Batafsil</button>
+          </div>
+        </div>
+      </div>
+      
+      <ng-template #noDoctors>
+        <div class="empty-state">
+          <i class="fas fa-user-md"></i>
+          <p>Hozirda mavjud shifokorlar yo'q</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Tezkor harakatlar -->
+  <div class="quick-actions" *ngIf="!loading">
+    <h2>Tezkor harakatlar</h2>
+    <div class="action-buttons">
+      <button class="action-btn">
+        <i class="fas fa-user-md"></i>
+        <span>Yangi shifokor ro'yxatga olish</span>
+      </button>
+      <button class="action-btn">
+        <i class="fas fa-user-plus"></i>
+        <span>Yangi bemor ro'yxatga olish</span>
+      </button>
+      <button class="action-btn">
+        <i class="fas fa-chart-bar"></i>
+        <span>Tizim hisobotlari</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Yuklash holati -->
+  <ng-template #loadingTemplate>
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Ma'lumotlar yuklanmoqda...</p>
+    </div>
+  </ng-template>
+
+  <!-- Xatolik xabari -->
+  <div class="error-message" *ngIf="error">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button (click)="loadData()">Qayta urinish</button>
+  </div>
+</div>

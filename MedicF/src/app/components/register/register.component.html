@@ -1,0 +1,28 @@
+<div>
+  <h2>Registratsiya</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Foydalanuvchi nomi:</label>
+      <input id="username" type="text" formControlName="username">
+      <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+        Foydalanuvchi nomi majburiy.
+      </div>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email">
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        Valid email kiriting.
+      </div>
+    </div>
+    <div>
+      <label for="password">Parol:</label>
+      <input id="password" type="password" formControlName="password">
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        Parol kamida 6 ta belgidan iborat bo'lishi kerak.
+      </div>
+    </div>
+    <button type="submit" [disabled]="!registerForm.valid">Ro'yxatdan o'tish</button>
+  </form>
+</div>
+<p>register works!</p>

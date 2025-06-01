@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Monitoring Ma'lumotlari Ro'yxati</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="monitorings$ | async as monitorings; else loading">
+    <div *ngIf="monitorings.length > 0; else noMonitorings">
+      <ul class="monitoring-list">
+        <li *ngFor="let monitoring of monitorings" class="monitoring-item">
+          <p><strong>ID:</strong> {{ monitoring.id }}</p>
+          <p><strong>Bemor ID:</strong> {{ monitoring.patientId }}</p>
+          <p><strong>Vaqt belgisi:</strong> {{ monitoring.timestamp | date:'medium' }}</p>
+          <p><strong>Yurak urish tezligi:</strong> {{ monitoring.heartRate }}</p>
+          <p><strong>Qon bosimi (Sistolik/Diastolik):</strong> {{ monitoring.bloodPressureSystolic }} / {{ monitoring.bloodPressureDiastolic }}</p>
+          <p><strong>Harorat:</strong> {{ monitoring.temperature }}</p>
+          <p><strong>Izohlar:</strong> {{ monitoring.notes }}</p>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noMonitorings>
+      <p>Hozircha monitoring ma'lumotlari mavjud emas.</p>
+    </ng-template>
+  </div>
+  <ng-template #loading>
+    <p>Monitoring ma'lumotlari yuklanmoqda...</p>
+  </ng-template>
+</div>

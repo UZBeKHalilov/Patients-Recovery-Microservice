@@ -1,0 +1,15 @@
+<h2>Bemorlar Ro'yxati</h2>
+
+<div *ngIf="loading">Yuklanmoqda...</div>
+
+<div *ngIf="error" class="error-message">{{ error }}</div>
+
+<ul *ngIf="!loading && !error && patients.length > 0">
+  <li *ngFor="let patient of patients">
+    {{ patient.firstName }} {{ patient.lastName }} (Tug'ilgan sana: {{ patient.dateOfBirth | date:'yyyy-MM-dd' }})
+  </li>
+</ul>
+
+<div *ngIf="!loading && !error && patients.length === 0">
+  Bemorlar topilmadi.
+</div>

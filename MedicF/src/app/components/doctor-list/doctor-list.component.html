@@ -1,0 +1,17 @@
+<h2>Shifokorlar Ro'yxati</h2>
+
+<div *ngIf="loading">Yuklanmoqda...</div>
+
+<div *ngIf="error">
+  Xatolik yuz berdi: {{ error.message }}
+</div>
+
+<ul *ngIf="doctors$ | async as doctors; else noDoctors">
+  <li *ngFor="let doctor of doctors">
+    {{ doctor.firstName }} {{ doctor.lastName }} - {{ doctor.specialization }}
+  </li>
+</ul>
+
+<ng-template #noDoctors>
+  <div *ngIf="!loading && !error">Shifokorlar topilmadi.</div>
+</ng-template>
